@@ -26,6 +26,11 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+plugins {
+    // Lets Gradle auto-provision the Java 11 toolchain (used by jvmToolchain(11))
+    // on machines that don't have it installed, e.g. CI runners.
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {

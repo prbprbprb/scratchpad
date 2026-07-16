@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # JDK 17 runs Gradle and the Android Gradle Plugin. The Java 11 toolchain
+      # used to compile the code is auto-provisioned by the Foojay resolver
+      # configured in settings.gradle.kts.
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # Fails the build on any unformatted / non-AOSP code. Kept as its own
+      # step so formatting problems surface quickly, before the longer build.
+      - name: Check formatting (Spotless)
+        run: ./gradlew spotlessCheck
+
+      - name: Build and test
+        run: ./gradlew assembleDebug testDebugUnitTest
