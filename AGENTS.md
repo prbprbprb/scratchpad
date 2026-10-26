@@ -38,7 +38,7 @@ CI order (`.github/workflows/ci.yml`): `spotlessCheck` → `assembleDebug testDe
 - A “sketch” is a self-contained experiment class in `app/src/main/java/org/prbentley/scratchpad/sketch/` that extends `BaseSketch` and is annotated `@Sketch` (`org.prbentley.scratchpad.Sketch`). Sketches can be Kotlin or Java (see `HelloJava.java`).
 - Exactly one sketch may also be annotated `@Default` to be selected at startup.
 - Sketches are discovered at compile time by `ksp/.../SketchFinder.kt`, which generates `org.prbentley.scratchpad.SketchProvider` in `app/build/generated/ksp/...` — it does **not** exist in `app/src/`.
-- Adding or renaming a sketch usually needs a clean/rebuild for the generated registry to catch up.
+- The registry is an aggregating KSP output (`Dependencies(true, ...)`), so incremental builds regenerate it in full: adding, renaming or removing a sketch needs no clean build. Keep it aggregating; as an isolating output, adding a new sketch file regenerates the registry from that file alone.
 - `SketchModel` instantiates sketches by reflection via `getDeclaredConstructor().newInstance()` and wires `scratchpad`, `logger`, and `after`/`onFinished`.
 
 ## Writing a sketch

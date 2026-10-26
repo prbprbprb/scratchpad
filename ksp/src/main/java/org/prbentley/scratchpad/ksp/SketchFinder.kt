@@ -67,7 +67,10 @@ class SketchFinder(
         }
 
         val stream = codeGenerator.createNewFile(
-            dependencies = Dependencies(false, *resolver.getAllFiles().toList().toTypedArray()),
+            // Aggregating, because the registry lists every @Sketch class. As an isolating
+            // output, an incremental build that adds a new source file would regenerate it
+            // from that file alone, dropping every other sketch and the @Default.
+            dependencies = Dependencies(true, *resolver.getAllFiles().toList().toTypedArray()),
             packageName = PACKAGE,
             fileName = CLASS,
             extensionName = "kt"

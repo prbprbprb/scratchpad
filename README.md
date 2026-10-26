@@ -77,10 +77,6 @@ class Countdown : BaseSketch() {
 - Annotate one sketch with `@Default` as well to select it at startup.
 - Sketches can be written in Java too; see `HelloJava.java`.
 
-If a new or renamed sketch doesn't show up in the dropdown, do a clean
-build (`./gradlew clean installDebug`) so the generated sketch list is
-rebuilt.
-
 ## Included sketches
 
 | Sketch                     | What it does                                                                        |
