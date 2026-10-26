@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package prb.scratchpad
+package org.prbentley.scratchpad
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
