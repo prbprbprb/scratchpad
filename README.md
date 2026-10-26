@@ -1,9 +1,10 @@
 # Scratch Pad
 
-A playground Android app for quick experiments. Each experiment is a small
-*sketch* class: pick one from the dropdown, tap **Go**, and watch its output
-in a scrolling log pane. Sketches can add simple controls (sliders,
-checkboxes, text fields, buttons) without writing any UI code.
+A playground Android app for quick experiments, and for trying out platform
+APIs across Android versions. Each experiment is a small *sketch* class: pick
+one from the dropdown, tap **Go**, and watch its output in a scrolling log
+pane. Sketches can add simple controls (sliders, checkboxes, text fields,
+buttons) without writing any UI code.
 
 Sketches are discovered at compile time by a small KSP processor, so adding
 one is just a matter of writing the class.
@@ -12,7 +13,23 @@ one is just a matter of writing the class.
 
 - JDK 21
 - Android SDK with platform 37 (Android Studio will offer to install it)
-- A device or emulator running Android 12 (API 31) or later
+- A device or emulator running Android 7.0 (API 24) or later
+
+## Android versions
+
+The app's `minSdk` is deliberately low while `compileSdk` and `targetSdk`
+track the latest release, so one build runs on everything from Android 7.0 to
+the newest version. That makes it cheap to find out how an API behaves, or
+whether it exists, on a given release: create emulators for the versions you
+care about and run the same sketch on each.
+
+API 24 is the lowest that the current Compose and AndroidX libraries
+support. Core library desugaring is enabled, so `java.time` and other newer
+Java APIs work on every version.
+
+Because the code compiles against the newest SDK, nothing stops a sketch
+calling an API the device doesn't have. Guarding those calls is up to the
+sketch; see [Writing a sketch](#writing-a-sketch).
 
 ## Building and running
 
@@ -28,6 +45,7 @@ install from the command line:
 | Build a debug APK                      | `./gradlew assembleDebug`              |
 | Run unit tests                         | `./gradlew testDebugUnitTest`          |
 | Run instrumented tests (device needed) | `./gradlew connectedDebugAndroidTest`  |
+| Check for unguarded newer-API calls    | `./gradlew lintDebug`                  |
 | Check formatting                       | `./gradlew spotlessCheck`              |
 | Fix formatting and license headers     | `./gradlew spotlessApply`              |
 
@@ -76,6 +94,25 @@ class Countdown : BaseSketch() {
   when pressed. Override `Ui()` instead if you want a custom Compose layout.
 - Annotate one sketch with `@Default` as well to select it at startup.
 - Sketches can be written in Java too; see `HelloJava.java`.
+
+### Guarding newer APIs
+
+The app runs on Android 7.0 and up, so check the device's API level before
+calling anything newer than API 24, and report what happens on older
+versions instead:
+
+```kotlin
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    out("SoC model: ${Build.SOC_MODEL}")
+} else {
+    out("Build.SOC_MODEL needs Android 12 (API 31)")
+}
+```
+
+For a helper that is only ever called behind such a check, annotate it with
+`@RequiresApi` instead. `./gradlew lintDebug` (lint's `NewApi` check) flags
+any newer-API call that isn't guarded. The `AppFunctions` sketch shows both
+patterns.
 
 ## Included sketches
 

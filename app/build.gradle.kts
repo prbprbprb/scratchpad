@@ -25,7 +25,9 @@ android {
 
     defaultConfig {
         applicationId = "org.prbentley.scratchpad"
-        minSdk = 31
+        // Deliberately low, so sketches can try APIs across Android versions on old
+        // emulators; sketches guard newer APIs with Build.VERSION.SDK_INT checks.
+        minSdk = 24
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
@@ -45,6 +47,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
+        // Makes java.time and other newer Java APIs available below API 26.
+        isCoreLibraryDesugaringEnabled = true
     }
     buildFeatures {
         compose = true
@@ -61,6 +65,7 @@ kotlin {
 
 dependencies {
     ksp(project(":ksp"))
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

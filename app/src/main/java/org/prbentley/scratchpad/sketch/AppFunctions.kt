@@ -20,6 +20,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Xml
+import androidx.annotation.RequiresApi
 import androidx.appfunctions.AppFunctionManager
 import androidx.appfunctions.AppFunctionSearchSpec
 import androidx.appfunctions.metadata.AppFunctionArrayTypeMetadata
@@ -214,6 +215,7 @@ class AppFunctions : BaseSketch() {
         return if (type.value("isNullable") == "true") "$name?" else name
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     private fun metadataXmlName(component: ComponentName): String? {
         for (property in METADATA_PROPERTIES) {
             try {

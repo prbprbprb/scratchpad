@@ -30,6 +30,7 @@ CI order (`.github/workflows/ci.yml`): `spotlessCheck` → `assembleDebug testDe
 ## Tooling
 
 - JDK 21 everywhere: it runs Gradle / Android Gradle Plugin and is the compilation toolchain (`jvmToolchain(21)`, Java/Kotlin targets 21 in both modules). The Foojay resolver in `settings.gradle.kts` auto-provisions it on machines that lack it.
+- `minSdk` is deliberately 24 (the lowest the current Compose/AndroidX libraries allow) while `compileSdk`/`targetSdk` track the latest: the point is running the same sketches on old and new emulators to compare API behaviour. Never raise `minSdk` to silence lint; guard the call instead. Core library desugaring is enabled so `java.time` works below API 26 (`BaseSketch.sleep()` depends on it). Adaptive launcher icons live in `mipmap-anydpi-v26/`; older devices use the `.webp` mipmaps.
 - Code style is enforced by Spotless with ktlint `android_studio` / AOSP style. `@Composable` functions are allowed PascalCase. Every `*.kt`, `*.java`, and `*.gradle.kts` file must carry the Apache 2.0 license header from `config/spotless/apache-2.0-header.txt`.
 - A tracked pre-push hook (`.githooks/pre-push`) runs the same checks as CI and blocks the push on failure. Enable it once per clone with `git config core.hooksPath .githooks`; bypass with `git push --no-verify`. It builds the working tree, not the commits being pushed, so uncommitted changes affect the result.
 
@@ -49,6 +50,7 @@ CI order (`.github/workflows/ci.yml`): `spotlessCheck` → `assembleDebug testDe
 - `toast(...)` posts a `Toast` using `scratchpad.applicationContext`.
 - Expose UI controls by overriding `widgets: List<Widget>` (SliderWidget, TextWidget, BooleanWidget, ButtonWidget). Each widget holds its own Compose state, which `go()` reads directly; there is no per-sketch view model.
 - `BaseSketch.Ui()` renders `widgets` by default; override it for a custom layout.
+- Guard any platform API above 24 with a `Build.VERSION.SDK_INT` check that reports the missing API via `out(...)` on older devices, or mark helpers called only behind such a check with `@RequiresApi`. `./gradlew :app:lintDebug` must report no `NewApi` errors. Lint does not check library APIs; for those, rely on the library's own availability checks (e.g. `AppFunctionManager.getInstance()` returning `null`).
 - See `Fibonacci.kt` for the cancellation/widget pattern and `HelloJava.java` for a Java sketch.
 
 ## App shell
