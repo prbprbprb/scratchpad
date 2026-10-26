@@ -25,7 +25,7 @@ Run from repo root with `./gradlew`:
 - Check formatting: `./gradlew spotlessCheck`
 - Apply formatting: `./gradlew spotlessApply`
 
-CI order (`.github/workflows/ci.yml`): `spotlessCheck` → `assembleDebug testDebugUnitTest`.
+CI order (`.github/workflows/ci.yml`): `spotlessCheck` → `assembleDebug testDebugUnitTest` → `lintDebug`. Lint errors (e.g. `NewApi`) fail CI; warnings don't.
 
 ## Tooling
 

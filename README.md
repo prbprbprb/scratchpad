@@ -148,8 +148,9 @@ shows the sketch's widgets and log output.
   git config core.hooksPath .githooks
   ```
 
-- **CI:** GitHub Actions checks formatting, then builds and runs the unit
-  tests on JDK 21.
+- **CI:** GitHub Actions checks formatting, builds, runs the unit tests and
+  runs lint on JDK 21. Lint errors fail the build, including calls to APIs
+  newer than `minSdk` without a version check.
 - [`AGENTS.md`](AGENTS.md) has more detail for coding agents.
 
 ## License

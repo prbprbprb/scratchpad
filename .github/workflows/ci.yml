@@ -33,3 +33,8 @@ jobs:
 
       - name: Build and test
         run: ./gradlew assembleDebug testDebugUnitTest
+
+      # Fails on lint errors, notably NewApi: a call to an API newer than
+      # minSdk without a Build.VERSION.SDK_INT guard. Warnings don't fail it.
+      - name: Lint
+        run: ./gradlew lintDebug

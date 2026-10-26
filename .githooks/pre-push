@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 #
-# ScratchPad pre-push hook: run the same checks CI runs, so formatting or
-# build/test breakage is caught locally before it reaches the remote.
+# ScratchPad pre-push hook: run the same checks CI runs, so formatting,
+# build/test breakage or lint errors (such as unguarded newer-API calls)
+# are caught locally before they reach the remote.
 #
-# Mirrors .github/workflows/ci.yml:  spotlessCheck -> assembleDebug + unit tests
+# Mirrors .github/workflows/ci.yml:
+#   spotlessCheck -> assembleDebug + unit tests -> lintDebug
 #
 # Enable once per clone with:
 #   git config core.hooksPath .githooks
@@ -15,9 +17,9 @@ set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-echo "pre-push: running CI checks (spotlessCheck, assembleDebug, unit tests)…"
+echo "pre-push: running CI checks (spotlessCheck, assembleDebug, unit tests, lint)…"
 echo "          bypass with 'git push --no-verify' if you must."
 
 # Redirect gradle's stdin from /dev/null so it doesn't consume the ref list
 # git feeds this hook on stdin.
-./gradlew --console=plain spotlessCheck assembleDebug testDebugUnitTest </dev/null
+./gradlew --console=plain spotlessCheck assembleDebug testDebugUnitTest lintDebug </dev/null
