@@ -15,14 +15,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # JDK 17 runs Gradle and the Android Gradle Plugin. The Java 11 toolchain
-      # used to compile the code is auto-provisioned by the Foojay resolver
-      # configured in settings.gradle.kts.
-      - name: Set up JDK 17
+      # JDK 21 both runs Gradle / the Android Gradle Plugin and is the
+      # compilation toolchain (jvmToolchain(21)).
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4

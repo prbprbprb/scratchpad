@@ -61,6 +61,7 @@ fun Scratch2Theme(
         }
 
         darkTheme -> DarkColorScheme
+
         else -> LightColorScheme
     }
 
