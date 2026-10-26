@@ -1,5 +1,7 @@
 # Scratch Pad
 
+[![CI](https://github.com/prbprbprb/scratchpad/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/prbprbprb/scratchpad/actions/workflows/ci.yml)
+
 A playground Android app for quick experiments, and for trying out platform
 APIs across Android versions. Each experiment is a small *sketch* class: pick
 one from the dropdown, tap **Go**, and watch its output in a scrolling log
