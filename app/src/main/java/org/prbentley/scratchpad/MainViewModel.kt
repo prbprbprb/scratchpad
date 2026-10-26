@@ -94,7 +94,6 @@ open class MainViewModel(application: Application) : AndroidViewModel(applicatio
 
     private fun onSketchFinished() {
         logger.verbose("Finished.")
-        currentSketch.value.job = null
     }
 
     @Composable

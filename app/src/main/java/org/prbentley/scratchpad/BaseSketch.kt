@@ -90,6 +90,7 @@ abstract class BaseSketch {
         } finally {
             after()
             isRunning = false
+            job = null
         }
     }
 
