@@ -3,6 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Lets the AppFunctions sketch use the platform discovery API where this can be granted. -->
+    <uses-permission android:name="android.permission.EXECUTE_APP_FUNCTIONS"
+        tools:ignore="ProtectedPermissions" />
+
+    <queries>
+        <!-- Package visibility for the AppFunctions sketch's PackageManager scan. -->
+        <intent>
+            <action android:name="android.app.appfunctions.AppFunctionService" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
