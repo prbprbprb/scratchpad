@@ -19,7 +19,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import org.prbentley.scratchpad.ui.theme.Scratch2Theme
+import org.prbentley.scratchpad.ui.theme.ScratchPadTheme
 
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Scratch2Theme {
+            ScratchPadTheme {
                 MainScreen(viewModel = viewModel)
             }
         }

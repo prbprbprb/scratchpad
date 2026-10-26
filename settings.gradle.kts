@@ -39,6 +39,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Scratch2"
+rootProject.name = "ScratchPad"
 include(":app")
 include(":ksp")

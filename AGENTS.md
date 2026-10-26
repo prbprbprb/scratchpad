@@ -7,7 +7,7 @@ ScratchPad is an Android playground app: a Compose shell that lets you pick a sm
 ## Project shape
 
 - Two Gradle modules: `:app` (Android app, `org.prbentley.scratchpad`) and `:ksp` (plain JVM KSP processor, `org.prbentley.scratchpad.ksp`).
-- Root project name is `Scratch2`.
+- Root project name is `ScratchPad`.
 - `app` depends on the processor via `ksp(project(":ksp"))`.
 - To understand sketch discovery or the KSP processor you must read across both modules; no single file tells the whole story.
 
